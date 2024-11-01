@@ -14,8 +14,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  Environment:
-    name: Environment
+  Variables:
+    name: Variables
     runs-on: ubuntu-latest
     timeout-minutes: 3
 

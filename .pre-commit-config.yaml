@@ -2,39 +2,54 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0
     hooks:
-      # Check format files
-      - id: check-yaml
-      - id: check-toml
-      - id: check-json
-      # Lint and Format
-      - id: end-of-file-fixer
-      - id: trailing-whitespace
-      - id: name-tests-test
-      # Git
-      - id: check-merge-conflict
+    # Check format files
+    - id: check-yaml
+      name: Formatting YML
 
-  # Lint e Format
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.6.1
-    hooks:
-      - id: ruff
-        types_or: [ python, pyi ]
-        args: [--fix]
+    - id: check-toml
+      name: Formatting TOML
 
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.11.1
-    hooks:
-      - id: mypy
-        additional_dependencies: [types-pyyaml]
-        exclude: ^testing/resources/
+    - id: check-json
+      name: Formatting JSON
 
-  # Pytest
+    # Lint and Format
+    - id: end-of-file-fixer
+      name: Fixing end of files
+
+    - id: trailing-whitespace
+      name: Trailing whitespace
+
+    # Git
+    - id: check-merge-conflict
+      name: Checking merge conflicts
+
+    # Pytest
+    - id: name-tests-test
+      name: Pytest - Name Files
+      files: (test|mock)(^|/)/.+\.py$
+
   - repo: local
     hooks:
-      - id: run-pytest
-        name: pytest
-        entry: ./.venv/bin/pytest test
-        language: system
-        types: [python]
-        pass_filenames: false
-        always_run: true
+    - id: check
+      name: Checking dependencies
+      entry: make check
+      language: system
+      pass_filenames: false
+
+    - id: lint
+      name: Linting files
+      entry: make lint
+      language: system
+      pass_filenames: false
+
+    - id: pytest
+      name: Testing system
+      entry: make pytest
+      language: system
+      pass_filenames: false
+
+    #- id: sonarqube
+    #  name: Sonarqube quality gateway
+    #  entry: make sonar
+    #  language: system
+    #  pass_filenames: false

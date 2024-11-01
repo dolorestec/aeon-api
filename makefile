@@ -21,8 +21,7 @@ commit:
 
 lint:
 	@echo -e ${BOLD}Running ruff ${RESET};
-	@ruff check --fix src
-	@ruff format src
+	@poetry run  ruff check ./src  --fix
 
 pytest:
 	@echo -e ${BOLD}Start testing with pytest...${RESET};
@@ -59,4 +58,3 @@ install:
 	@poetry check --no-cache
 	@poetry build --no-cache
 	@poetry install
-	@alm-cli --help

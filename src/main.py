@@ -1,13 +1,11 @@
-
 from fastapi import FastAPI
 
 app = FastAPI()
 
-
-@app.get('/')
+@app.get("/")
 async def root():
-    return {'message': 'Hello World'}
+    return {"message": "Hello World"}
 
-@app.post('/')
+@app.post("/")
 async def health():
-    return {'message': 'health'}
+    return {"message": "health"}

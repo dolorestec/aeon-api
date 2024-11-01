@@ -16,7 +16,7 @@ concurrency:
 jobs:
   Environment:
     name: Environment
-    runs-on: alpine:lastest
+    runs-on: alpine-lastest
     timeout-minutes: 3
 
     steps:

@@ -1,0 +1,27 @@
+name: full-publish
+run-name: ${{ github.event.commits.message }}
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  Environment:
+    name: Variables
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+
+    steps:
+      - name: Checkout
+        uses: dolorestec/templates/.github/workflows/environment/variables.yml@develop
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.ref_name }}

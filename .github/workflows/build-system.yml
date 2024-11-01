@@ -1,0 +1,67 @@
+name: full-publish
+run-name: ${{ github.event.commits.message }}
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  Environment:
+    name: Environment
+    runs-on: lucascantarelli/dlrs-release
+    timeout-minutes: 3
+
+    steps:
+      - name: Checkout
+        uses: Actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - name: Create file
+        env:
+          APP_ENV_FILE: ${{ format('{0}-env.json',github.event.repository.name) }}
+        run: |
+          echo "::group::Create file"
+          touch ${{env.APP_ENV_FILE}}
+          echo "::endgroup::"
+
+
+      - name: Set variables
+        run: |
+          echo "::group::Environment Variables"
+          echo "APP_NAME=${{ github.event.repository.name }}" >> ${{env.APP_ENV_FILE}}
+          echo "APP_VERSION=$(cat ${{env.APP_VERSION_FILE}} | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g' | awk -F'-' '{print $1}' | sed 's/[^0-9.]*//g')" >> ${{env.APP_ENV_FILE}}
+          echo "APP_REPOSITORY=${{ github.repository }}">> ${{env.APP_ENV_FILE}}
+          echo "APP_BRANCH=$(echo ${{ github.ref }} | awk -F'/' '{print $NF}')" >> ${{env.APP_ENV_FILE}}
+          echo "APP_TAG=$(cat ${{env.APP_VERSION_FILE}} | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g')" >> ${{env.APP_ENV_FILE}}
+          echo "APP_SUFFIX=$( echo $(cat ${{env.APP_VERSION_FILE}} | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g') | awk -F'-' '{print $2}')" >> ${{env.APP_ENV_FILE}}
+          echo "::endgroup::"
+        env:
+          APP_ENV_FILE: ${{ format('{0}-env.json',github.event.repository.name) }}
+          APP_VERSION_FILE: ${{ format('{0}.json',github.event.repository.name) }}
+
+      - name: List variables
+        run: |
+          echo "::group::Create file"
+          cat ${{env.APP_ENV_FILE}}
+          echo "::endgroup::"
+        env:
+          APP_ENV_FILE: ${{ format('{0}-env.json',github.event.repository.name) }}
+
+      - name: Upload file
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{env.APP_ENV_FILE}}
+          path: ${{env.APP_ENV_FILE}}
+        env:
+          APP_ENV_FILE: ${{ format('{0}-env.json',github.event.repository.name) }}

@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "aeon-api"
+version = "0.1.0"
+description = "Api de gestão de tempo."
+authors = ["Lucas Cantarelli <lucascantarellijpa@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pre-commit = "^4.0.0"
+fastapi = {extras = ["all"], version = "^0.115.0"}
+uvicorn = "^0.31.0"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.6.9"
+pytest = "^8.3.3"
+pytest-asyncio = "^0.24.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+# Packages
+packages = [
+    { include = "*", from = "./cli" },
+]

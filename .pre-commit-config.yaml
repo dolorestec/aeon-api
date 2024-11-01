@@ -1,0 +1,40 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      # Check format files
+      - id: check-yaml
+      - id: check-toml
+      - id: check-json
+      # Lint and Format
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: name-tests-test
+      # Git
+      - id: check-merge-conflict
+
+  # Lint e Format
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.1
+    hooks:
+      - id: ruff
+        types_or: [ python, pyi ]
+        args: [--fix]
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.11.1
+    hooks:
+      - id: mypy
+        additional_dependencies: [types-pyyaml]
+        exclude: ^testing/resources/
+
+  # Pytest
+  - repo: local
+    hooks:
+      - id: run-pytest
+        name: pytest
+        entry: ./.venv/bin/pytest test
+        language: system
+        types: [python]
+        pass_filenames: false
+        always_run: true

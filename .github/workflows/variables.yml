@@ -16,7 +16,7 @@ concurrency:
 jobs:
   Environment:
     name: Environment
-    runs-on: lucascantarelli/dlrs-release:latest
+    runs-on: alpine:lastest
     timeout-minutes: 3
 
     steps:

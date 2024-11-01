@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 from typing import AsyncGenerator
 from fastapi.testclient import TestClient
 from httpx import ASGITransport, AsyncClient

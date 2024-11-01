@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 from httpx import AsyncClient
 import pytest
 

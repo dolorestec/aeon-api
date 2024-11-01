@@ -101,7 +101,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.APP_DOCKER_TAG }} ${{ env.APP_DOCKER_TAG_LATEST }}
+          tags: ${{ env.APP_DOCKER_TAG }}
         env:
           APP_DOCKER_TAG: ${{ secrets.DOCKER_REGISTRY }}/${{ env.APP_NAME }}:${{ env.APP_TAG }}
 
@@ -111,6 +111,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.APP_DOCKER_TAG }} ${{ env.APP_DOCKER_TAG_LATEST }}
+          tags: ${{ env.APP_DOCKER_TAG }}
         env:
           APP_DOCKER_TAG: ${{ secrets.DOCKER_REGISTRY }}/${{ env.APP_NAME }}:latest
